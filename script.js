@@ -11,7 +11,10 @@ function updateLastLogin() {
   lastLogin.innerText = `Last Login: ${getDate()} on ttys000`;
 }
 
-updateLastLogin();
+function inputArgV(input) {
+  const argv = input.split(" ");
+  return argv;
+}
 
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
@@ -58,3 +61,5 @@ cmdInput.addEventListener("keypress", (event) => {
     event.target.value = "";
   }
 });
+
+updateLastLogin();
