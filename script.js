@@ -22,7 +22,7 @@ function inputArgV(input) {
   return argv;
 }
 
-// this command handler allows for commands to be handled different based on options defined below in switch statement. Needs to be rewritten.
+// this command handler takes the input and generates the output based on options defined below in switch statement. Needs to be rewritten.
 function cmdHandler(text, cmd, includeCmd) {
   if (!text) {
     return `<span class="cmd">➜  <span>~</span> <span class="prevCmd"> ${cmd}</span></span>`;
