@@ -1,5 +1,10 @@
 "use strict";
 
+const cmdInput = document.querySelector("#cmdInput");
+const inputArea = document.querySelector("#inputArea");
+const lastLogin = document.querySelector(".lastLogin");
+
+// builds and sets the last login info  when page is first loaded
 function updateLastLogin() {
   let lastLogin = document.querySelector(".lastLogin");
 
@@ -11,15 +16,13 @@ function updateLastLogin() {
   lastLogin.innerText = `Last Login: ${getDate()} on ttys000`;
 }
 
+// split an input into an array so that multiple arguments can be accepted
 function inputArgV(input) {
   const argv = input.split(" ");
   return argv;
 }
 
-const cmdInput = document.querySelector("#cmdInput");
-const inputArea = document.querySelector("#inputArea");
-const lastLogin = document.querySelector(".lastLogin");
-
+// this command handler allows for commands to be handled different based on options defined below in switch statement. Needs to be rewritten.
 function cmdHandler(text, cmd, includeCmd) {
   if (!text) {
     return `<span class="cmd">➜  <span>~</span> <span class="prevCmd"> ${cmd}</span></span>`;
@@ -33,6 +36,7 @@ function cmdHandler(text, cmd, includeCmd) {
   }
 }
 
+// the event listener captures the input on enter and passes it through the switch statement to handle the various commands
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     let input = event.target.value.toString();
