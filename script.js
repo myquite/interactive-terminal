@@ -36,8 +36,9 @@ function cmdHandler(text, cmd, includeCmd) {
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     let input = event.target.value.toString();
+    let argv = inputArgV(input);
 
-    switch (input) {
+    switch (argv[0]) {
       case "clear":
         lastLogin.remove();
         inputArea.innerHTML = "";
@@ -51,11 +52,19 @@ cmdInput.addEventListener("keypress", (event) => {
       case "ls":
         inputArea.innerHTML += cmdHandler("hello.txt", input, false);
         break;
-      case "cat hello.txt":
-        inputArea.innerHTML += cmdHandler("Hello World", input, false);
+      case "cat":
+        if (argv[1] === "hello.txt") {
+          inputArea.innerHTML += cmdHandler("Hello World", input, false);
+        } else {
+          inputArea.innerHTML += cmdHandler(
+            "No such file or directory:",
+            argv[1],
+            true
+          );
+        }
         break;
       default:
-        inputArea.innerHTML += cmdHandler("command not found:", input, true);
+        inputArea.innerHTML += cmdHandler("command not found:", input, false);
     }
 
     event.target.value = "";
