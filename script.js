@@ -58,7 +58,7 @@ cmdInput.addEventListener("keypress", (event) => {
         } else {
           inputArea.innerHTML += cmdHandler(
             "No such file or directory:",
-            argv[1],
+            argv[1], //TODO: Change stuff up to pass both arguments.
             true
           );
         }

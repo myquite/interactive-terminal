@@ -89,4 +89,5 @@ p {
   font-size: 0.8rem;
   background-color: rgba(27, 43, 52, 0);
   letter-spacing: 2px;
+  outline: none;
 }
