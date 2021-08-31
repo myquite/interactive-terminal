@@ -1,7 +1,6 @@
 # Interactive Terminal
 
-![screenshot](https://user-images.githubusercontent.com/997046/131572607-db8707a1-0f89-489a-b221-9b4c2ade63d3.png)
-
+![myquite github io_interactive-terminal_](https://user-images.githubusercontent.com/997046/131572741-44267951-d5a4-4e7e-987d-865bb9cc0004.png)
 
 Current Commands:
 - clear
