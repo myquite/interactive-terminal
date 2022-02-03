@@ -3,6 +3,12 @@
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
+const terminal = document.querySelector("#terminal");
+
+// this function the scroll bar at the bottom of the terminal
+function scrollToBottom() {
+  terminal.scrollTop = terminal.scrollHeight;
+}
 
 // builds and sets the last login info  when page is first loaded
 function updateLastLogin() {
@@ -24,7 +30,7 @@ function inputArgV(input) {
 
 // returns an object that can be referenced as the file system
 function setFileStructure() {
-  return null;
+  //TODO: add file system
 }
 
 function help() {
@@ -109,6 +115,7 @@ cmdInput.addEventListener("keypress", (event) => {
     }
 
     event.target.value = "";
+    scrollToBottom();
   }
 });
 
