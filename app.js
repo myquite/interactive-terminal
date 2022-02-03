@@ -41,23 +41,9 @@ function help() {
   <br>
   <span class="cmd">ls</span> - lists files and folders in the current directory
   <br>
-  <span class="cmd">cd</span> - changes the current directory
-  <br>
   <span class="cmd">cat</span> - displays the contents of a file
   <br>
-  <span class="cmd">rm</span> - removes a file or folder
-  <br>
-  <span class="cmd">mkdir</span> - creates a new directory
-  <br>
-  <span class="cmd">touch</span> - creates a new file
-  <br>
   <span class="cmd">clear</span> - clears the terminal
-  <br>
-  <span class="cmd">exit</span> - exits the terminal
-  <br>
-  <span class="cmd">help</span> - displays this help message
-  <br>
-  <span class="cmd">last</span> - displays the last command executed
   <br>
   <span class="cmd">`;
 }
