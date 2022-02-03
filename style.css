@@ -16,7 +16,7 @@ body {
 
 .triangle {
   background-color: #f9c200;
-  background-image: url("/images/GitHub-Mark-32px.png");
+  background-image: url("./images/GitHub-Mark-32px.png");
   background-size: 32px;
   background-position: 34px 6px;
   padding: 10px;
