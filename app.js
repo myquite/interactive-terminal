@@ -43,8 +43,6 @@ function help() {
   <br>
   <span class="cmd">cat</span> - displays the contents of a file
   <br>
-  <span class="cmd">clear</span> - clears the terminal
-  <br>
   <span class="cmd">`;
 }
 
