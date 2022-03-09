@@ -1,5 +1,20 @@
 "use strict";
 
+import mockFileSystem from "./modules/filesystem.js";
+
+const lesson1 = mockFileSystem();
+
+function listFiles(dir, files) {
+  let output = "";
+  for (let i = 0; i < dir.length; i++) {
+    output += `<span class="cmd">${dir[i]}</span> `;
+  }
+  for (let i = 0; i < files.length; i++) {
+    output += `<span>${files[i]}</span> `;
+  }
+  return output;
+}
+
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
@@ -26,11 +41,6 @@ function updateLastLogin() {
 function inputArgV(input) {
   const argv = input.split(" ");
   return argv;
-}
-
-// returns an object that can be referenced as the file system
-function setFileStructure() {
-  //TODO: add file system
 }
 
 function help() {
@@ -75,10 +85,14 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler("echo", input, false);
         break;
       case "pwd":
-        inputArea.innerHTML += cmdHandler("/Users/myquite", input, false);
+        inputArea.innerHTML += cmdHandler(lesson1.root, input, false);
         break;
       case "ls":
-        inputArea.innerHTML += cmdHandler("hello.txt", input, false);
+        inputArea.innerHTML += cmdHandler(
+          listFiles(lesson1.currentDirectories, lesson1.currentFiles),
+          input,
+          false
+        );
         break;
       case "help":
         inputArea.innerHTML += cmdHandler(help(), input, false);
