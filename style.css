@@ -93,6 +93,10 @@ p {
   margin: 0;
 }
 
+.dir {
+  color: #76e8fe;
+}
+
 .cmd {
   color: #aaef3d;
 }

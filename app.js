@@ -7,7 +7,7 @@ const lesson1 = mockFileSystem();
 function listFiles(dir, files) {
   let output = "";
   for (let i = 0; i < dir.length; i++) {
-    output += `<span class="cmd">${dir[i]}</span> `;
+    output += `<span class="dir">${dir[i]}</span> `;
   }
   for (let i = 0; i < files.length; i++) {
     output += `<span>${files[i]}</span> `;
