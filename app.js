@@ -2,18 +2,8 @@
 
 import mockFileSystem from "./modules/filesystem.js";
 
+// instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
-
-function listFiles(dir, files) {
-  let output = "";
-  for (let i = 0; i < dir.length; i++) {
-    output += `<span class="dir">${dir[i]}</span> `;
-  }
-  for (let i = 0; i < files.length; i++) {
-    output += `<span>${files[i]}</span> `;
-  }
-  return output;
-}
 
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
@@ -41,6 +31,18 @@ function updateLastLogin() {
 function inputArgV(input) {
   const argv = input.split(" ");
   return argv;
+}
+
+// this function generates the output for the ls command
+function listFiles(dir, files) {
+  let output = "";
+  for (let i = 0; i < dir.length; i++) {
+    output += `<span class="dir">${dir[i]}</span> `;
+  }
+  for (let i = 0; i < files.length; i++) {
+    output += `<span>${files[i]}</span> `;
+  }
+  return output;
 }
 
 function help() {
