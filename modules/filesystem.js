@@ -1,10 +1,9 @@
 function mockFileSystem() {
-  const fs = {
-    root: "/Users/user/Project",
+  return {
+    root: "/Users/myquite/Sites/js-terminal",
     currentDirectories: ["styles", "scripts", "images"],
     currentFiles: ["index.html"],
   };
-  return fs;
 }
 
 export default mockFileSystem;

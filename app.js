@@ -9,6 +9,18 @@ const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
 const terminal = document.querySelector("#terminal");
+const workingDir = document.querySelector(".workingDir");
+
+// Sets the prompt for the terminal and includes the current working directory if not root.
+function setPrompt() {
+  let currentDir = lesson1.root.split("/").pop();
+  if (lesson1.root === "/Users/myquite") {
+    return `<span class="cmd">➜ <span class="workingDir">~</span> </span>`;
+  } else {
+    workingDir.innerHTML = `${currentDir}`;
+    return `<span class="cmd">➜ <span class="workingDir">${currentDir}</span> </span>`;
+  }
+}
 
 // this function the scroll bar at the bottom of the terminal
 function scrollToBottom() {
@@ -61,11 +73,11 @@ function help() {
 // this command handler takes the input and generates the output based on options defined below in switch statement. Needs to be rewritten.
 function cmdHandler(text, cmd, includeCmd) {
   if (!text) {
-    return `<span class="cmd">➜  <span>~</span> <span class="prevCmd"> ${cmd}</span></span>`;
+    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span>`;
   } else if (!includeCmd) {
-    return `<span class="cmd">➜  <span>~</span> <span class="prevCmd"> ${cmd}</span></span> <p>${text}</p>`;
+    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span> <p>${text}</p>`;
   } else {
-    return `<span class="cmd">➜  <span>~</span> <span class="prevCmd"> ${cmd}</span></span> <p>${text} ${cmd.split(
+    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span> <p>${text} ${cmd.split(
       " ",
       1
     )}</p>`;
@@ -100,7 +112,7 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler(help(), input, false);
         break;
       case "cat":
-        if (argv[1] === "hello.txt") {
+        if (argv.includes("index.html")) {
           inputArea.innerHTML += cmdHandler("Hello World", input, false);
         } else {
           inputArea.innerHTML += cmdHandler(
@@ -119,4 +131,5 @@ cmdInput.addEventListener("keypress", (event) => {
   }
 });
 
+setPrompt();
 updateLastLogin();
