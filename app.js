@@ -13,8 +13,8 @@ const workingDir = document.querySelector(".workingDir");
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
-  let currentDir = lesson1.root.split("/").pop();
-  if (lesson1.root === "/Users/myquite") {
+  let currentDir = lesson1.currentWorkingDirectory.split("/").pop();
+  if (lesson1.currentWorkingDirectory === "/Users/myquite") {
     return `<span class="cmd">➜ <span class="workingDir">~</span> </span>`;
   } else {
     workingDir.innerHTML = `${currentDir}`;
@@ -70,17 +70,12 @@ function help() {
   <span class="cmd">`;
 }
 
-// this command handler takes the input and generates the output based on options defined below in switch statement. Needs to be rewritten.
-function cmdHandler(text, cmd, includeCmd) {
-  if (!text) {
-    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span>`;
-  } else if (!includeCmd) {
-    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span> <p>${text}</p>`;
+// this command handler takes the input and generates the output based on options defined below in switch statement.
+function cmdHandler(text, cmd) {
+  if (cmd) {
+    return `${setPrompt()} <span class="prevCmd">${cmd}</span></span><p>${text}</p>`;
   } else {
-    return `${setPrompt()} <span class="prevCmd"> ${cmd}</span></span> <p>${text} ${cmd.split(
-      " ",
-      1
-    )}</p>`;
+    return `${setPrompt()}<p></p>`;
   }
 }
 
@@ -96,34 +91,45 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML = "";
         break;
       case "echo":
-        inputArea.innerHTML += cmdHandler("echo", input, false);
+        inputArea.innerHTML += cmdHandler("echo", input);
         break;
       case "pwd":
-        inputArea.innerHTML += cmdHandler(lesson1.root, input, false);
+        inputArea.innerHTML += cmdHandler(
+          lesson1.currentWorkingDirectory,
+          input
+        );
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
           listFiles(lesson1.currentDirectories, lesson1.currentFiles),
-          input,
-          false
+          input
         );
         break;
       case "help":
-        inputArea.innerHTML += cmdHandler(help(), input, false);
+        inputArea.innerHTML += cmdHandler(help(), input);
         break;
       case "cat":
         if (argv.includes("index.html")) {
-          inputArea.innerHTML += cmdHandler("Hello World", input, false);
-        } else {
           inputArea.innerHTML += cmdHandler(
-            "No such file or directory:",
-            argv[1], //TODO: Change stuff up to pass both arguments.
-            true
+            lesson1.fileContents["index.html"],
+            input
           );
+        } else {
+          if (argv[1]) {
+            inputArea.innerHTML += cmdHandler(
+              `No such file or directory: ${argv[1]}`,
+              input
+            );
+          } else {
+            inputArea.innerHTML += cmdHandler("cat: missing operand", input);
+          }
         }
         break;
+      case "cd":
+        inputArea.innerHTML += cmdHandler(`${argv}`, input);
+        break;
       default:
-        inputArea.innerHTML += cmdHandler("command not found:", input, false);
+        inputArea.innerHTML += cmdHandler("command not found:", input);
     }
 
     event.target.value = "";
