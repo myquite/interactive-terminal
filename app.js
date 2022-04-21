@@ -1,6 +1,7 @@
 "use strict";
 
-import mockFileSystem from "./modules/filesystem.js";
+import mockFileSystem from "./modules/fileSystem.js";
+import tc from "./modules/terminalCommands.js";
 
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
@@ -45,43 +46,6 @@ function inputArgV(input) {
   return argv;
 }
 
-// this function generates the output for the ls command
-// function listFiles(dir, files) {
-//   let output = "";
-//   for (let i = 0; i < dir.length; i++) {
-//     output += `<span class="dir">${dir[i]}</span> `;
-//   }
-//   for (let i = 0; i < files.length; i++) {
-//     output += `<span>${files[i]}</span> `;
-//   }
-//   return output;
-// }
-
-function listFiles(fs) {
-  let output = "";
-  for (let i = 0; i < fs.length; i++) {
-    if (fs[i].type === "directory") {
-      output += `<span class="dir">${fs[i].name}</span> `;
-    } else {
-      output += `<span>${fs[i].name}</span> `;
-    }
-  }
-  return output;
-}
-
-function help() {
-  return `
-  <span class="cmd">help</span> - displays this help message
-  <br>
-  <span class="cmd">clear</span> - clears the terminal
-  <br>
-  <span class="cmd">ls</span> - lists files and folders in the current directory
-  <br>
-  <span class="cmd">cat</span> - displays the contents of a file
-  <br>
-  <span class="cmd">`;
-}
-
 // this command handler takes the input and generates the output based on options defined below in switch statement.
 function cmdHandler(text, cmd) {
   if (cmd) {
@@ -113,12 +77,12 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
-          listFiles(lesson1.currentFileSystem),
+          tc.listFiles(lesson1.currentFileSystem),
           input
         );
         break;
       case "help":
-        inputArea.innerHTML += cmdHandler(help(), input);
+        inputArea.innerHTML += cmdHandler(tc.help(), input);
         break;
       case "cat":
         if (argv.includes("index.html")) {
