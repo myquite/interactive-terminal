@@ -46,13 +46,25 @@ function inputArgV(input) {
 }
 
 // this function generates the output for the ls command
-function listFiles(dir, files) {
+// function listFiles(dir, files) {
+//   let output = "";
+//   for (let i = 0; i < dir.length; i++) {
+//     output += `<span class="dir">${dir[i]}</span> `;
+//   }
+//   for (let i = 0; i < files.length; i++) {
+//     output += `<span>${files[i]}</span> `;
+//   }
+//   return output;
+// }
+
+function listFiles(fs) {
   let output = "";
-  for (let i = 0; i < dir.length; i++) {
-    output += `<span class="dir">${dir[i]}</span> `;
-  }
-  for (let i = 0; i < files.length; i++) {
-    output += `<span>${files[i]}</span> `;
+  for (let i = 0; i < fs.length; i++) {
+    if (fs[i].type === "directory") {
+      output += `<span class="dir">${fs[i].name}</span> `;
+    } else {
+      output += `<span>${fs[i].name}</span> `;
+    }
   }
   return output;
 }
@@ -101,7 +113,7 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
-          listFiles(lesson1.currentDirectories, lesson1.currentFiles),
+          listFiles(lesson1.currentFileSystem),
           input
         );
         break;
@@ -111,7 +123,7 @@ cmdInput.addEventListener("keypress", (event) => {
       case "cat":
         if (argv.includes("index.html")) {
           inputArea.innerHTML += cmdHandler(
-            lesson1.fileContents["index.html"],
+            lesson1.currentFileSystem[3].contents,
             input
           );
         } else {
