@@ -119,10 +119,11 @@ p {
   font-family: monospace;
   display: inline;
   border: none;
+  width: 50%;
   color: #fffeff;
   font-size: inherit;
   background-color: rgba(27, 43, 52, 0);
-  letter-spacing: 2px;
+  /* letter-spacing: 2px; */
   outline: none;
 }
 

@@ -28,6 +28,13 @@ let terminalCommands = {
     }
     return output;
   },
+  echo: (args) => {
+    let output = "";
+    for (let i = 0; i < args.length; i++) {
+      output += `${args[i]} `;
+    }
+    return output;
+  },
 };
 
 export default terminalCommands;

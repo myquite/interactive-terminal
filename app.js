@@ -40,10 +40,14 @@ function updateLastLogin() {
   lastLogin.innerText = `Last Login: ${getDate()} on ttys000`;
 }
 
-// split an input into an array so that multiple arguments can be accepted
-function inputArgV(input) {
-  const argv = input.split(" ");
-  return argv;
+// split input into command, options, and arguments.
+function inputToCOA(input) {
+  // let inputArray = input.split(" ");
+  let inputArray = input.match(/(".*?"|[^",\s]+)/g);
+  let command = inputArray[0];
+  let options = inputArray.slice(1, inputArray.length - 1);
+  let args = inputArray.slice(-1, inputArray.length);
+  return { command, options, args };
 }
 
 // this command handler takes the input and generates the output based on options defined below in switch statement.
@@ -59,15 +63,15 @@ function cmdHandler(text, cmd) {
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     let input = event.target.value.toString();
-    let argv = inputArgV(input);
+    let argv = inputToCOA(input);
 
-    switch (argv[0]) {
+    switch (argv.command) {
       case "clear":
         lastLogin.remove();
         inputArea.innerHTML = "";
         break;
       case "echo":
-        inputArea.innerHTML += cmdHandler("echo", input);
+        inputArea.innerHTML += cmdHandler(tc.echo(argv.args), input);
         break;
       case "pwd":
         inputArea.innerHTML += cmdHandler(
@@ -85,7 +89,7 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler(tc.help(), input);
         break;
       case "cat":
-        if (argv.includes("index.html")) {
+        if (argv.args.includes("index.html")) {
           inputArea.innerHTML += cmdHandler(
             lesson1.currentFileSystem[3].contents,
             input
@@ -103,6 +107,12 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "cd":
         inputArea.innerHTML += cmdHandler(`${argv}`, input);
+        break;
+      case "test":
+        inputArea.innerHTML += cmdHandler(
+          `${argv.command}, ${argv.options}, ${argv.args}`,
+          input
+        );
         break;
       default:
         inputArea.innerHTML += cmdHandler("command not found:", input);
