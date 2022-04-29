@@ -42,18 +42,18 @@ function updateLastLogin() {
 
 // split input into command, options, and arguments.
 function inputToCOA(input) {
-  // let inputArray = input.split(" ");
   let inputArray = input.match(/(".*?"|[^",\s]+)/g);
   let command = inputArray[0];
   let options = inputArray.slice(1, inputArray.length - 1);
   let args = inputArray.slice(-1, inputArray.length);
+  // TODO: if there is one command it will also be the first argument. fix this. The cat command is and example where this is an issue. if I type cat and not argument, cat becomes the argument and I don't get the correct error message.
   return { command, options, args };
 }
 
 // this command handler takes the input and generates the output based on options defined below in switch statement.
-function cmdHandler(text, cmd) {
-  if (cmd) {
-    return `${setPrompt()} <span class="prevCmd">${cmd}</span></span><p>${text}</p>`;
+function cmdHandler(message, input) {
+  if (input) {
+    return `${setPrompt()} <span class="prevCmd">${input}</span></span><p>${message}</p>`;
   } else {
     return `${setPrompt()}<p></p>`;
   }
@@ -94,15 +94,13 @@ cmdInput.addEventListener("keypress", (event) => {
             lesson1.currentFileSystem[3].contents,
             input
           );
+        } else if (argv.args[0] === undefined) {
+          inputArea.innerHTML += cmdHandler("cat: missing operand", input);
         } else {
-          if (argv[1]) {
-            inputArea.innerHTML += cmdHandler(
-              `No such file or directory: ${argv[1]}`,
-              input
-            );
-          } else {
-            inputArea.innerHTML += cmdHandler("cat: missing operand", input);
-          }
+          inputArea.innerHTML += cmdHandler(
+            `No such file or directory: ${argv.args[0]}`,
+            input
+          );
         }
         break;
       case "cd":
@@ -110,12 +108,16 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
-          `Commands [${argv.command}], Options [${argv.options}], Arguments[${argv.args}]`,
+          `Command: [${argv.command}], Options [${argv.options}], Argument [${argv.args}]`,
           input
         );
         break;
       default:
-        inputArea.innerHTML += cmdHandler("command not found:", input);
+        inputArea.innerHTML += cmdHandler(
+          `command not found: ${argv.command}`,
+          input
+        );
+        break;
     }
 
     event.target.value = "";
