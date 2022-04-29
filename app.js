@@ -110,7 +110,7 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
-          `${argv.command}, ${argv.options}, ${argv.args}`,
+          `Commands [${argv.command}], Options [${argv.options}], Arguments[${argv.args}]`,
           input
         );
         break;
