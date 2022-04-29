@@ -1,6 +1,6 @@
 "use strict";
 
-import mockFileSystem from "./modules/fileSystem.js";
+import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
 
 // instatiates the filesystem and sets the current directory and files.
