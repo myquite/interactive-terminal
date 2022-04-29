@@ -31,7 +31,9 @@ let terminalCommands = {
   echo: (args) => {
     let output = "";
     for (let i = 0; i < args.length; i++) {
-      output += `${args[i]} `;
+      if (args[i].includes('"')) {
+        output += args[i].slice(1, -1);
+      }
     }
     return output;
   },
