@@ -13,4 +13,7 @@ Current Commands:
 - cat
 - help
 
+- test (shows how the input in the terminal is being broken up into command, options, and arguments)
+  Example: test -h -r "Hello World"
+
 Live Project: [Interactive Terminal](https://myquite.github.io/interactive-terminal/)
