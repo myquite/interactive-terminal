@@ -16,7 +16,7 @@ function expect(actual) {
         throw new Error(`Expected ${actual} to be ${expected}`);
       }
     },
-    toKindOfBe: (expected) => {
+    toBeLike: (expected) => {
       if (actual != expected) {
         throw new Error(`Expected ${actual} to kind of be ${expected}`);
       }

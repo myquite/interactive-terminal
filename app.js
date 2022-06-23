@@ -131,7 +131,7 @@ updateLastLogin();
 
 // Running tests on the terminal commands
 
-test("echo command returns arguemnents", tc.echo, () => {
+test("echo command returns arguements", tc.echo, () => {
   let input = inputToCOA("echo hello").args;
-  expect(input).toKindOfBe("hello");
+  expect(input).toBeLike("hello");
 });
