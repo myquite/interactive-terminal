@@ -2,6 +2,7 @@
 
 import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
+import { test, expect } from "././modules/test.js";
 
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
@@ -127,3 +128,10 @@ cmdInput.addEventListener("keypress", (event) => {
 
 setPrompt();
 updateLastLogin();
+
+// Running tests on the terminal commands
+
+test("echo command returns arguemnents", tc.echo, () => {
+  let input = inputToCOA("echo hello").args;
+  expect(input).toKindOfBe("hello");
+});
