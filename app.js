@@ -47,7 +47,6 @@ function inputToCOA(input) {
   let command = inputArray[0];
   let options = inputArray.slice(1, inputArray.length - 1);
   let args = inputArray.slice(-1, inputArray.length);
-  // TODO: if there is one command it will also be the first argument. fix this. The cat command is and example where this is an issue. if I type cat and not argument, cat becomes the argument and I don't get the correct error message.
   return { command, options, args };
 }
 
@@ -95,7 +94,7 @@ cmdInput.addEventListener("keypress", (event) => {
             lesson1.currentFileSystem[3].contents,
             input
           );
-        } else if (argv.args[0] === undefined) {
+        } else if (argv.args.length === 1) {
           inputArea.innerHTML += cmdHandler("cat: missing operand", input);
         } else {
           inputArea.innerHTML += cmdHandler(
