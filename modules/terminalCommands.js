@@ -39,6 +39,9 @@ let terminalCommands = {
     }
     return output;
   },
+  lesson: () => {
+    return "Lesson Loaded..."
+  }
 };
 
 export default terminalCommands;

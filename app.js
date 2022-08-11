@@ -46,9 +46,9 @@ function inputToCOA(input) {
   let inputArray = input.match(/(".*?"|[^",\s]+)/g);
   let command = inputArray[0];
   let options = inputArray.slice(1, inputArray.length - 1);
-  let args = inputArray.slice(-1, inputArray.length);
-  // TODO: if there is one command it will also be the first argument. fix this. The cat command is and example where this is an issue. if I type cat and not argument, cat becomes the argument and I don't get the correct error message.
-  return { command, options, args };
+  // TODO: args will return empty if there is only 1 command. While it no longer returns the command as an arg, it will pick up options and that still needs to be fixed.
+  let args = inputArray.length > 1 ? inputArray.slice(-1, inputArray.length) : ""; 
+  return { command, options, args } ;
 }
 
 // this command handler takes the input and generates the output based on options defined below in switch statement.
@@ -106,6 +106,9 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "cd":
         inputArea.innerHTML += cmdHandler(`${argv}`, input);
+        break;
+      case "lesson":
+        inputArea.innerHTML += cmdHandler(tc.lesson(), input);
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
