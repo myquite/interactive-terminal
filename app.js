@@ -2,6 +2,7 @@
 
 import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
+import lc from "./modules/lessonCommands.js";
 import { test, expect } from "././modules/test.js";
 
 // activates the filesystem and sets the current directory and files.
@@ -12,6 +13,7 @@ const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
 const terminal = document.querySelector("#terminal");
 const workingDir = document.querySelector(".workingDir");
+const helpBar = document.querySelector('#helpBar')
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
@@ -108,7 +110,8 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler(`${argv}`, input);
         break;
       case "lesson":
-        inputArea.innerHTML += cmdHandler(tc.lesson(), input);
+        inputArea.innerHTML += cmdHandler('Lesson Loaded', input);
+        helpBar.innerHTML = lc.lesson(argv.args)
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
@@ -138,3 +141,4 @@ test("echo command returns arguements", tc.echo, () => {
   let input = inputToCOA("echo hello").args;
   expect(input).toBeLike("hello");
 });
+
