@@ -4,8 +4,8 @@ import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
 import { test, expect } from "././modules/test.js";
 
-// instatiates the filesystem and sets the current directory and files.
-const lesson1 = mockFileSystem();
+// activates the filesystem and sets the current directory and files.
+const activeFileSystem = mockFileSystem();
 
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
@@ -15,8 +15,8 @@ const workingDir = document.querySelector(".workingDir");
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
-  let currentDir = lesson1.currentWorkingDirectory.split("/").pop();
-  if (lesson1.currentWorkingDirectory === "/Users/myquite") {
+  let currentDir = activeFileSystem.currentWorkingDirectory.split("/").pop();
+  if (activeFileSystem.currentWorkingDirectory === "/Users/myquite") {
     return `<span class="cmd">➜ <span class="workingDir">~</span> </span>`;
   } else {
     workingDir.innerHTML = `${currentDir}`;
@@ -76,13 +76,13 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "pwd":
         inputArea.innerHTML += cmdHandler(
-          lesson1.currentWorkingDirectory,
+          activeFileSystem.currentWorkingDirectory,
           input
         );
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
-          tc.listFiles(lesson1.currentFileSystem),
+          tc.listFiles(activeFileSystem.currentFileSystem),
           input
         );
         break;
@@ -92,7 +92,7 @@ cmdInput.addEventListener("keypress", (event) => {
       case "cat":
         if (argv.args.includes("index.html")) {
           inputArea.innerHTML += cmdHandler(
-            lesson1.currentFileSystem[3].contents,
+            activeFileSystem.currentFileSystem[3].contents,
             input
           );
         } else if (argv.args[0] === undefined) {
