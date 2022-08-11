@@ -45,12 +45,33 @@ header {
   background-color: #dee0dd;
   width: 100%;
   height: 4vh;
-  min-height: 32px;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  min-height: 32px;
   border-bottom: 1px solid #9c9d9d;
 }
+
+.frame {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.frame-controls {
+  display: flex;
+}
+
+.frame-title {
+  margin: 0 auto;
+  transform: translateX(-2rem);
+}
+
+.frame-title p {
+  font-size: 14px;
+  color: #555555;
+}
+
 
 main {
   flex: auto;
@@ -165,9 +186,7 @@ p {
     border-radius: 10px 10px 0 0;
     height: 4vh;
     min-height: 32px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     border-bottom: 1px solid #9c9d9d;
   }
+
 }
