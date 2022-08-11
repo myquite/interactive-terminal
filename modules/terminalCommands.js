@@ -33,6 +33,8 @@ let terminalCommands = {
     for (let i = 0; i < args.length; i++) {
       if (args[i].includes('"')) {
         output += args[i].slice(1, -1);
+      } else {
+        output += args[i]
       }
     }
     return output;
