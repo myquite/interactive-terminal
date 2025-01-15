@@ -10,7 +10,17 @@ const commandHistory = [];
 let historyIndex = -1;
 
 // Add after imports
-const COMMANDS = ["clear", "echo", "pwd", "ls", "cd", "help"];
+const COMMANDS = [
+  "clear",
+  "echo",
+  "pwd",
+  "ls",
+  "cd",
+  "help",
+  "touch",
+  "mkdir",
+  "rm",
+];
 
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
@@ -137,7 +147,7 @@ cmdInput.addEventListener("keypress", (event) => {
     let input = event.target.value.toString();
     let argv = inputToCOA(input);
 
-    switch (argv.command) {
+    switch (argv.command.toLowerCase()) {
       case "clear":
         lastLogin.remove();
         inputArea.innerHTML = "";
@@ -146,10 +156,7 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler(tc.echo(argv.args), input);
         break;
       case "pwd":
-        inputArea.innerHTML += cmdHandler(
-          activeFileSystem.currentWorkingDirectory,
-          input
-        );
+        inputArea.innerHTML += cmdHandler(tc.pwd(activeFileSystem), input);
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
@@ -161,22 +168,34 @@ cmdInput.addEventListener("keypress", (event) => {
         inputArea.innerHTML += cmdHandler(tc.help(), input);
         break;
       case "cat":
-        if (argv.args.includes("index.html")) {
-          inputArea.innerHTML += cmdHandler(
-            activeFileSystem.currentFileSystem[3].contents,
-            input
-          );
-        } else if (argv.args.length === 1) {
-          inputArea.innerHTML += cmdHandler("cat: missing operand", input);
-        } else {
-          inputArea.innerHTML += cmdHandler(
-            `No such file or directory: ${argv.args[0]}`,
-            input
-          );
-        }
+        inputArea.innerHTML += cmdHandler(
+          tc.cat(activeFileSystem.currentFileSystem, argv.args),
+          input
+        );
         break;
       case "cd":
-        inputArea.innerHTML += cmdHandler(`${argv}`, input);
+        inputArea.innerHTML += cmdHandler(
+          tc.cd(activeFileSystem, argv.args[0]),
+          input
+        );
+        break;
+      case "touch":
+        inputArea.innerHTML += cmdHandler(
+          tc.touch(activeFileSystem, argv.args),
+          input
+        );
+        break;
+      case "mkdir":
+        inputArea.innerHTML += cmdHandler(
+          tc.mkdir(activeFileSystem, argv.args),
+          input
+        );
+        break;
+      case "rm":
+        inputArea.innerHTML += cmdHandler(
+          tc.rm(activeFileSystem, argv.args),
+          input
+        );
         break;
       case "lesson":
         inputArea.innerHTML += cmdHandler("Lesson Loaded", input);

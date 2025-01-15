@@ -13,7 +13,15 @@ let terminalCommands = {
     <br>
     <span class="cmd">pwd</span> - displays the current working directory
     <br>
-    <span class="cmd">echo</span> - lines of text or string which are passed as arguments
+    <span class="cmd">cd</span> - change directory
+    <br>
+    <span class="cmd">echo</span> - displays lines of text or string passed as arguments
+    <br>
+    <span class="cmd">touch</span> - creates a new empty file
+    <br>
+    <span class="cmd">mkdir</span> - creates a new directory
+    <br>
+    <span class="cmd">rm</span> - removes a file or directory
     <br>
     <span class="cmd">`;
   },
@@ -34,10 +42,42 @@ let terminalCommands = {
       if (args[i].includes('"')) {
         output += args[i].slice(1, -1);
       } else {
-        output += args[i]
+        output += args[i];
       }
     }
     return output;
+  },
+  touch: (fs, args) => {
+    if (!args.length) return "touch: missing file operand";
+    return fs.createFile(args[0]);
+  },
+  mkdir: (fs, args) => {
+    if (!args.length) return "mkdir: missing directory operand";
+    return fs.createDirectory(args[0]);
+  },
+  rm: (fs, args) => {
+    if (!args.length) return "rm: missing operand";
+    return fs.remove(args[0]);
+  },
+  cat: (fs, args) => {
+    if (!args.length) {
+      return "cat: missing operand";
+    }
+    const file = fs.find((f) => f.name === args[0]);
+    if (!file) {
+      return `No such file or directory: ${args[0]}`;
+    }
+    return file.contents || "";
+  },
+  cd: (fs, path) => {
+    if (!path) {
+      return "cd: missing directory operand";
+    }
+    // TODO: Implement directory change logic
+    return `Changed to directory: ${path}`;
+  },
+  pwd: (fs) => {
+    return fs.currentWorkingDirectory || "/";
   },
 };
 
