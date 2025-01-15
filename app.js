@@ -9,6 +9,9 @@ import { test, expect } from "././modules/test.js";
 const commandHistory = [];
 let historyIndex = -1;
 
+// Add after imports
+const COMMANDS = ["clear", "echo", "pwd", "ls", "cd", "help"];
+
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
 const activeFileSystem = lesson1;
@@ -83,6 +86,40 @@ function handleKeydown(e) {
       historyIndex = -1;
       cmdInput.value = "";
     }
+  } else if (e.key === "Tab") {
+    e.preventDefault();
+    handleTabCompletion();
+  }
+}
+
+// Add new function
+function handleTabCompletion() {
+  const input = cmdInput.value;
+  const parts = input.split(" ");
+  const lastWord = parts[parts.length - 1];
+
+  // Command completion
+  if (parts.length === 1) {
+    const matches = COMMANDS.filter((cmd) => cmd.startsWith(lastWord));
+    completeInput(matches, parts, input);
+  }
+  // File/directory completion
+  else {
+    const currentFiles = activeFileSystem.currentFileSystem;
+    const matches = currentFiles
+      .filter((file) => file.name.startsWith(lastWord))
+      .map((file) => file.name);
+    completeInput(matches, parts, input);
+  }
+}
+
+// Add new function
+function completeInput(matches, parts, input) {
+  if (matches.length === 1) {
+    parts[parts.length - 1] = matches[0];
+    cmdInput.value = parts.join(" ");
+  } else if (matches.length > 1) {
+    inputArea.innerHTML += `\n${matches.join("  ")}\n${setPrompt()}${input}`;
   }
 }
 
