@@ -2,6 +2,7 @@
 
 import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
+import lc from "./modules/lessonCommands.js";
 import { test, expect } from "././modules/test.js";
 
 // Add command history tracking
@@ -16,11 +17,12 @@ const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
 const terminal = document.querySelector("#terminal");
 const workingDir = document.querySelector(".workingDir");
+const helpBar = document.querySelector("#helpBar");
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
-  let currentDir = lesson1.currentWorkingDirectory.split("/").pop();
-  if (lesson1.currentWorkingDirectory === "/Users/myquite") {
+  let currentDir = activeFileSystem.currentWorkingDirectory.split("/").pop();
+  if (activeFileSystem.currentWorkingDirectory === "/Users/myquite") {
     return `<span class="cmd">➜ <span class="workingDir">~</span> </span>`;
   } else {
     workingDir.innerHTML = `${currentDir}`;
@@ -107,13 +109,13 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "pwd":
         inputArea.innerHTML += cmdHandler(
-          lesson1.currentWorkingDirectory,
+          activeFileSystem.currentWorkingDirectory,
           input
         );
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
-          tc.listFiles(lesson1.currentFileSystem),
+          tc.listFiles(activeFileSystem.currentFileSystem),
           input
         );
         break;
@@ -123,7 +125,7 @@ cmdInput.addEventListener("keypress", (event) => {
       case "cat":
         if (argv.args.includes("index.html")) {
           inputArea.innerHTML += cmdHandler(
-            lesson1.currentFileSystem[3].contents,
+            activeFileSystem.currentFileSystem[3].contents,
             input
           );
         } else if (argv.args.length === 1) {
@@ -137,6 +139,10 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "cd":
         inputArea.innerHTML += cmdHandler(`${argv}`, input);
+        break;
+      case "lesson":
+        inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
+        helpBar.innerHTML = lc.lesson(argv.args);
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
