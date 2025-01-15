@@ -11,6 +11,7 @@ let historyIndex = -1;
 
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
+const activeFileSystem = lesson1;
 
 const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
