@@ -4,6 +4,10 @@ import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
 import { test, expect } from "././modules/test.js";
 
+// Add command history tracking
+const commandHistory = [];
+let historyIndex = -1;
+
 // instatiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
 
@@ -56,6 +60,34 @@ function cmdHandler(message, input) {
     return `${setPrompt()} <span class="prevCmd">${input}</span></span><p>${message}</p>`;
   } else {
     return `${setPrompt()}<p></p>`;
+  }
+}
+
+// Handle command history navigation
+function handleKeydown(e) {
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (historyIndex < commandHistory.length - 1) {
+      historyIndex++;
+      cmdInput.value = commandHistory[historyIndex]; // Remove length-1 subtraction
+    }
+  } else if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (historyIndex > 0) {
+      historyIndex--;
+      cmdInput.value = commandHistory[historyIndex]; // Remove length-1 subtraction
+    } else if (historyIndex === 0) {
+      historyIndex = -1;
+      cmdInput.value = "";
+    }
+  }
+}
+
+// Modify the existing command processing to store history
+function processCommand(input) {
+  if (input.trim()) {
+    commandHistory.unshift(input); // Adds new commands to beginning of array
+    historyIndex = -1;
   }
 }
 
@@ -120,10 +152,13 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
     }
 
+    processCommand(input);
     event.target.value = "";
     scrollToBottom();
   }
 });
+
+cmdInput.addEventListener("keydown", handleKeydown);
 
 setPrompt();
 updateLastLogin();
