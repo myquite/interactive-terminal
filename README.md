@@ -22,7 +22,6 @@ Live Project: [Interactive Terminal](https://myquite.github.io/interactive-termi
 
 - Implement missing command handlers in terminalCommands.js
 - Add file manipulation commands (touch, mkdir, rm)
-- Add command history (up/down arrows)
 - Add tab completion
 - Add file content viewing/editing
 - Add proper error handling
