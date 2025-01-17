@@ -10,8 +10,11 @@ body {
   height: 100vh;
   font-family: monospace;
   font-size: 16px;
-  background-color: rgba(53, 120, 167, 1);
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="49" viewBox="0 0 28 49"%3E%3Cg fill-rule="evenodd"%3E%3Cg id="hexagons" fill="%239C92AC" fill-opacity="0.4" fill-rule="nonzero"%3E%3Cpath d="M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+  background: linear-gradient(
+    to bottom right,
+    rgba(53, 120, 167, 1),
+    rgb(83, 162, 208)
+  );
 }
 
 .triangle {
@@ -39,6 +42,22 @@ body {
   background-color: rgba(27, 43, 52, 0.9);
   overflow-y: scroll;
   z-index: 0;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #76e8fe rgba(27, 43, 52, 0.5); /* Firefox */
+}
+
+#terminal::-webkit-scrollbar {
+  width: 8px;
+}
+
+#terminal::-webkit-scrollbar-track {
+  background: rgba(27, 43, 52, 0.5);
+}
+
+#terminal::-webkit-scrollbar-thumb {
+  background-color: #76e8fe;
+  border-radius: 4px;
 }
 
 header {
@@ -71,7 +90,6 @@ header {
   font-size: 14px;
   color: #555555;
 }
-
 
 main {
   flex: auto;
@@ -128,7 +146,7 @@ p {
 }
 
 .prevCmd {
-  color: #fffeff;
+  color: #fffeff; /* Light text for previous commands */
 }
 
 .lastLogin {
@@ -137,19 +155,43 @@ p {
 }
 
 #cmdInput {
+  /* Base styling */
   font-family: monospace;
-  display: inline;
-  border: none;
-  width: 50%;
-  color: #fffeff;
   font-size: inherit;
+  color: #fffeff;
+
+  /* Layout */
+  display: inline;
+  flex: 1;
+  width: 50%;
+  min-width: 0;
+  padding: 2px;
+
+  /* Appearance */
+  border: none;
   background-color: rgba(27, 43, 52, 0);
-  /* letter-spacing: 2px; */
   outline: none;
 }
 
+#cmdInput:focus {
+  outline: none;
+  caret-color: #76e8fe; /* Light blue cursor */
+}
+
+#inputArea {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-x: hidden;
+}
+
+.cmd-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .helper em {
-  color: #fb618e;
+  color: #fb618e; /* Pink emphasis text */
 }
 
 @media screen and (min-width: 800px) {
@@ -188,5 +230,19 @@ p {
     min-height: 32px;
     border-bottom: 1px solid #9c9d9d;
   }
+}
 
+@media screen and (max-width: 799px) {
+  #terminal {
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  #cmdInput {
+    font-size: 16px; /* Prevents zoom on mobile */
+  }
+
+  .frame-title {
+    display: none; /* Optional: removes title on mobile for more space */
+  }
 }

@@ -4,25 +4,15 @@ let terminalCommands = {
   help: () => {
     return `
     <span class="cmd">help</span> - displays this help message
-    <br>
     <span class="cmd">clear</span> - clears the terminal
-    <br>
     <span class="cmd">ls</span> - lists files and folders in the current directory
-    <br>
     <span class="cmd">cat</span> - displays the contents of a file
-    <br>
     <span class="cmd">pwd</span> - displays the current working directory
-    <br>
     <span class="cmd">cd</span> - change directory
-    <br>
     <span class="cmd">echo</span> - displays lines of text or string passed as arguments
-    <br>
     <span class="cmd">touch</span> - creates a new empty file
-    <br>
     <span class="cmd">mkdir</span> - creates a new directory
-    <br>
     <span class="cmd">rm</span> - removes a file or directory
-    <br>
     <span class="cmd">`;
   },
   listFiles: (fs) => {
