@@ -44,7 +44,7 @@ function setPrompt() {
   }
 }
 
-// this function the scroll bar at the bottom of the terminal
+// Scrolls the terminal view to the bottom
 function scrollToBottom() {
   terminal.scrollTop = terminal.scrollHeight;
 }
