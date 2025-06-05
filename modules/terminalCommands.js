@@ -14,7 +14,6 @@ let terminalCommands = {
     <span class="cmd">touch</span> - creates a new empty file
     <span class="cmd">mkdir</span> - creates a new directory
     <span class="cmd">rm</span> - removes a file or directory
-    <strong>Lessons</strong>
     <span class="cmd">lesson &lt;number&gt;</span> - start a guided lesson
     <span class="cmd">lesson --help</span> - how lessons work
     <span class="cmd">lesson ls</span> - list lessons`;
