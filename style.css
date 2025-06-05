@@ -40,22 +40,19 @@ body {
   width: 100vw;
   height: 85%;
   background-color: rgba(27, 43, 52, 0.9);
-  overflow-y: scroll;
+  overflow: hidden;
   z-index: 0;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #76e8fe rgba(27, 43, 52, 0.5); /* Firefox */
 }
 
-#terminal::-webkit-scrollbar {
+main::-webkit-scrollbar {
   width: 8px;
 }
 
-#terminal::-webkit-scrollbar-track {
+main::-webkit-scrollbar-track {
   background: rgba(27, 43, 52, 0.5);
 }
 
-#terminal::-webkit-scrollbar-thumb {
+main::-webkit-scrollbar-thumb {
   background-color: #76e8fe;
   border-radius: 4px;
 }
@@ -93,8 +90,13 @@ header {
 
 main {
   flex: auto;
+  min-height: 0;
   padding: 0.5rem 1rem;
   color: #fffeff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #76e8fe rgba(27, 43, 52, 0.5); /* Firefox */
 }
 
 footer {
@@ -233,7 +235,7 @@ p {
     max-height: 600px;
     border-radius: 10px 10px 0 0;
     background-color: rgba(27, 43, 52, 0.9);
-    overflow-y: scroll;
+    overflow: hidden;
   }
 
   header {
