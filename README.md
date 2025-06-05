@@ -16,6 +16,10 @@ Current Commands:
 - test (shows how the input in the terminal is being broken up into command, options, and arguments)
   Example: test -h -r "Hello World"
 
+## Lessons
+
+Use the `lesson` command to start a guided exercise. When you finish a lesson by entering the correct command, the help bar will confirm completion and prompt you for the next lesson.
+
 Live Project: [Interactive Terminal](https://myquite.github.io/interactive-terminal/)
 
 ## Priority Tasks
