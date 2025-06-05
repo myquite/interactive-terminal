@@ -2,7 +2,7 @@
 
 import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
-import lc from "./modules/lessonCommands.js";
+import lc, { lessons } from "./modules/lessonCommands.js";
 import { test, expect } from "././modules/test.js";
 
 // Add command history tracking
@@ -35,9 +35,9 @@ const helpBar = document.querySelector("#helpBar");
 const progressBar = document.querySelector("#progressBar");
 
 // Keep track of which lesson is currently active
-const lessonObjectives = {
-  1: "pwd",
-};
+const lessonObjectives = Object.fromEntries(
+  Object.entries(lessons).map(([num, data]) => [parseInt(num), data.command])
+);
 let currentLesson = null;
 
 // Progress tracking
@@ -252,6 +252,9 @@ cmdInput.addEventListener("keypress", (event) => {
           inputArea.innerHTML += cmdHandler(lc.lesson(["reset"]), input);
           helpBar.innerHTML = "";
           resetLessons();
+        } else if (argv.args[0] === "ls") {
+          inputArea.innerHTML += cmdHandler(lc.lesson(["ls"]), input);
+          helpBar.innerHTML = "";
         } else {
           inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
           helpBar.innerHTML = lc.lesson(argv.args);

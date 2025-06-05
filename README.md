@@ -23,6 +23,7 @@ Use the `lesson` command to start a guided exercise. When you finish a lesson by
 Run `lesson --help` for details on how the lesson system works and how to start a specific lesson.
 
 Use `lesson reset` to restart the lesson progress at any time.
+Use `lesson ls` to list all available lessons.
 
 Live Project: [Interactive Terminal](https://myquite.github.io/interactive-terminal/)
 
