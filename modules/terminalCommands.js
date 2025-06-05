@@ -1,5 +1,9 @@
 // start moving terminal commands into this file
 
+function getCurrentFiles(fs) {
+  return fs.structure[fs.currentWorkingDirectory] || [];
+}
+
 let terminalCommands = {
   help: () => {
     return `
@@ -19,12 +23,13 @@ let terminalCommands = {
     <span class="cmd">lesson ls</span> - list lessons`;
   },
   listFiles: (fs) => {
+    const files = getCurrentFiles(fs);
     let output = "";
-    for (let i = 0; i < fs.length; i++) {
-      if (fs[i].type === "directory") {
-        output += `<span class="dir">${fs[i].name}</span> `;
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].type === "directory") {
+        output += `<span class="dir">${files[i].name}</span> `;
       } else {
-        output += `<span>${fs[i].name}</span> `;
+        output += `<span>${files[i].name}</span> `;
       }
     }
     return output;
@@ -56,7 +61,9 @@ let terminalCommands = {
     if (!args.length) {
       return "cat: missing operand";
     }
-    const file = fs.find((f) => f.name === args[0]);
+    const file = getCurrentFiles(fs).find(
+      (f) => f.name === args[0] && f.type === "file"
+    );
     if (!file) {
       return `No such file or directory: ${args[0]}`;
     }
@@ -72,63 +79,43 @@ let terminalCommands = {
     return fs.currentWorkingDirectory || "/";
   },
   createFile: (fs, name) => {
-    if (!fs || !fs.currentFileSystem) {
-      return "Error: File system not initialized";
-    }
     if (!name || typeof name !== "string") {
       return "Error: Invalid file name";
     }
-    if (fs.currentFileSystem.find((f) => f.name === name)) {
+    const files = getCurrentFiles(fs);
+    if (files.find((f) => f.name === name)) {
       return `touch: ${name}: File exists`;
     }
-    try {
-      fs.currentFileSystem.push({
-        name: name,
-        type: "file",
-        contents: "",
-      });
-      return "";
-    } catch (error) {
-      return `Error creating file: ${error.message}`;
-    }
+    files.push({ name, type: "file", contents: "" });
+    return "";
   },
   createDirectory: (fs, name) => {
-    if (!fs || !fs.currentFileSystem) {
-      return "Error: File system not initialized";
-    }
     if (!name || typeof name !== "string") {
       return "Error: Invalid directory name";
     }
-    if (fs.currentFileSystem.find((f) => f.name === name)) {
+    const files = getCurrentFiles(fs);
+    if (files.find((f) => f.name === name)) {
       return `mkdir: ${name}: Directory exists`;
     }
-    try {
-      fs.currentFileSystem.push({
-        name: name,
-        type: "directory",
-      });
-      return "";
-    } catch (error) {
-      return `Error creating directory: ${error.message}`;
-    }
+    files.push({ name, type: "directory" });
+    fs.structure[`${fs.currentWorkingDirectory}/${name}`] = [];
+    return "";
   },
   remove: (fs, name) => {
-    if (!fs || !fs.currentFileSystem) {
-      return "Error: File system not initialized";
-    }
     if (!name || typeof name !== "string") {
       return "Error: Invalid name";
     }
-    try {
-      const index = fs.currentFileSystem.findIndex((f) => f.name === name);
-      if (index === -1) {
-        return `rm: ${name}: No such file or directory`;
-      }
-      fs.currentFileSystem.splice(index, 1);
-      return "";
-    } catch (error) {
-      return `Error removing item: ${error.message}`;
+    const files = getCurrentFiles(fs);
+    const index = files.findIndex((f) => f.name === name);
+    if (index === -1) {
+      return `rm: ${name}: No such file or directory`;
     }
+    const item = files[index];
+    files.splice(index, 1);
+    if (item.type === "directory") {
+      delete fs.structure[`${fs.currentWorkingDirectory}/${name}`];
+    }
+    return "";
   },
   changeDirectory: (fs, path) => {
     if (!path || path === "~") {
@@ -137,25 +124,21 @@ let terminalCommands = {
     }
 
     if (path === "..") {
-      const parts = fs.currentWorkingDirectory.split("/");
-      if (parts.length > 3) {
-        parts.pop();
-        fs.currentWorkingDirectory = parts.join("/");
+      if (fs.currentWorkingDirectory !== fs.root) {
+        fs.currentWorkingDirectory = fs.currentWorkingDirectory.replace(/\/[^/]+$/, "");
       }
       return "";
     }
 
     if (path === ".") return "";
 
-    const targetDir = fs.currentFileSystem.find(
-      (f) => f.name === path && f.type === "directory"
-    );
-
-    if (!targetDir) {
+    const target = `${fs.currentWorkingDirectory}/${path}`;
+    const exists = fs.structure[target];
+    if (!exists) {
       return `cd: ${path}: No such directory`;
     }
 
-    fs.currentWorkingDirectory += `/${path}`;
+    fs.currentWorkingDirectory = target;
     return "";
   },
 };

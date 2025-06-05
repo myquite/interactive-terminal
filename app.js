@@ -143,7 +143,8 @@ function handleTabCompletion() {
   }
   // File/directory completion
   else {
-    const currentFiles = activeFileSystem.currentFileSystem;
+    const currentFiles =
+      activeFileSystem.structure[activeFileSystem.currentWorkingDirectory] || [];
     const matches = currentFiles
       .filter((file) => file.name.startsWith(lastWord))
       .map((file) => file.name);
@@ -213,7 +214,7 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "ls":
         inputArea.innerHTML += cmdHandler(
-          tc.listFiles(activeFileSystem.currentFileSystem),
+          tc.listFiles(activeFileSystem),
           input
         );
         break;
@@ -222,7 +223,7 @@ cmdInput.addEventListener("keypress", (event) => {
         break;
       case "cat":
         inputArea.innerHTML += cmdHandler(
-          tc.cat(activeFileSystem.currentFileSystem, argv.args),
+          tc.cat(activeFileSystem, argv.args),
           input
         );
         break;
