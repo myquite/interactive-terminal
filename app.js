@@ -49,6 +49,12 @@ function updateProgressBar() {
   progressBar.style.width = `${percent}%`;
 }
 
+function resetLessons() {
+  completedLessons = 0;
+  currentLesson = null;
+  updateProgressBar();
+}
+
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
   let currentDir = activeFileSystem.currentWorkingDirectory.split("/").pop();
@@ -242,6 +248,10 @@ cmdInput.addEventListener("keypress", (event) => {
         if (argv.args[0] === "--help" || argv.args[0] === "-h" || !argv.args[0]) {
           inputArea.innerHTML += cmdHandler(lc.lesson(["--help"]), input);
           helpBar.innerHTML = "";
+        } else if (argv.args[0] === "reset") {
+          inputArea.innerHTML += cmdHandler(lc.lesson(["reset"]), input);
+          helpBar.innerHTML = "";
+          resetLessons();
         } else {
           inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
           helpBar.innerHTML = lc.lesson(argv.args);
