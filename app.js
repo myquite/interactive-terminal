@@ -170,13 +170,15 @@ function processCommand(input) {
 }
 
 // Check if the current command fulfills a lesson objective
-function handleLesson(command) {
+function handleLesson(input) {
   if (!currentLesson) {
     helpBar.innerHTML = helpInfo;
     return;
   }
   const expected = lessonObjectives[currentLesson];
-  if (command === expected) {
+  const normalizedInput = input.toLowerCase().trim();
+  const normalizedExpected = expected.toLowerCase().trim();
+  if (normalizedInput === normalizedExpected) {
     helpBar.innerHTML = `Lesson ${currentLesson} complete! Ready for the next lesson?`;
     if (currentLesson > completedLessons) {
       completedLessons = currentLesson;
@@ -287,7 +289,7 @@ cmdInput.addEventListener("keypress", (event) => {
     }
 
     if (argv.command.toLowerCase() !== "lesson") {
-      handleLesson(argv.command.toLowerCase());
+      handleLesson(input.toLowerCase().trim());
     }
 
     processCommand(input);
