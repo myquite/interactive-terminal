@@ -25,6 +25,13 @@ Run `lesson --help` for details on how the lesson system works and how to start 
 Use `lesson reset` to restart the lesson progress at any time.
 Use `lesson ls` to list all available lessons.
 
+### Available Lessons
+
+1. `pwd` - show the current directory
+2. `ls` - list files and folders
+3. `cd styles` - navigate into the styles directory
+4. `cd ..` - return to the previous directory
+
 Live Project: [Interactive Terminal](https://myquite.github.io/interactive-terminal/)
 
 ## Priority Tasks

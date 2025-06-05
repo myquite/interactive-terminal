@@ -4,6 +4,21 @@ const lessons = {
       "Find out where you are in the file system with the <em>'pwd'</em> command.",
     command: "pwd",
   },
+  2: {
+    description:
+      "List the contents of the current directory with the <em>'ls'</em> command.",
+    command: "ls",
+  },
+  3: {
+    description:
+      "Change into the <em>'styles'</em> directory using <em>'cd styles'</em>.",
+    command: "cd styles",
+  },
+  4: {
+    description:
+      "Move back to the previous directory using <em>'cd ..'</em>.",
+    command: "cd ..",
+  },
 };
 
 function listLessons() {
