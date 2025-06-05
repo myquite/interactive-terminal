@@ -63,10 +63,13 @@ function updateLastLogin() {
 
 // split input into command, options, and arguments.
 function inputToCOA(input) {
-  let inputArray = input.match(/(".*?"|[^",\s]+)/g);
-  let command = inputArray[0];
+  if (!input.trim()) {
+    return { command: "", options: [], args: [] };
+  }
+  let inputArray = input.match(/(".*?"|[^",\s]+)/g) || [];
+  let command = inputArray[0] || "";
   let options = inputArray.slice(1, inputArray.length - 1);
-  let args = inputArray.slice(-1, inputArray.length);
+  let args = inputArray.slice(-1);
   return { command, options, args };
 }
 
@@ -145,6 +148,12 @@ function processCommand(input) {
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     let input = event.target.value.toString();
+    if (!input.trim()) {
+      inputArea.innerHTML += cmdHandler("", "");
+      event.target.value = "";
+      scrollToBottom();
+      return;
+    }
     let argv = inputToCOA(input);
 
     switch (argv.command.toLowerCase()) {
