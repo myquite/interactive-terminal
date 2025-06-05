@@ -22,7 +22,7 @@ const COMMANDS = [
   "rm",
 ];
 
-// instatiates the filesystem and sets the current directory and files.
+// instantiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
 const activeFileSystem = lesson1;
 
