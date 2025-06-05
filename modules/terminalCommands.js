@@ -12,8 +12,7 @@ let terminalCommands = {
     <span class="cmd">echo</span> - displays lines of text or string passed as arguments
     <span class="cmd">touch</span> - creates a new empty file
     <span class="cmd">mkdir</span> - creates a new directory
-    <span class="cmd">rm</span> - removes a file or directory
-    <span class="cmd">`;
+    <span class="cmd">rm</span> - removes a file or directory`;
   },
   listFiles: (fs) => {
     let output = "";
