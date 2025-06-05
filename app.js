@@ -4,6 +4,7 @@ import mockFileSystem from "./modules/filesystem.js";
 import tc from "./modules/terminalCommands.js";
 import lc, { lessons } from "./modules/lessonCommands.js";
 import { test, expect } from "././modules/test.js";
+import mc, { modules as modulesMap } from "./modules/moduleCommands.js";
 
 // Add command history tracking
 const commandHistory = [];
@@ -16,6 +17,7 @@ const COMMANDS = [
   "pwd",
   "ls",
   "cd",
+  "module",
   "help",
   "touch",
   "mkdir",
@@ -42,6 +44,7 @@ const lessonObjectives = Object.fromEntries(
 );
 let currentLesson = null;
 
+let currentModule = null;
 // Progress tracking
 const totalLessons = Object.keys(lessonObjectives).length;
 let completedLessons = 0;
@@ -184,10 +187,21 @@ function handleLesson(input) {
     if (currentLesson > completedLessons) {
       completedLessons = currentLesson;
       updateProgressBar();
+      handleModuleProgress();
     }
     currentLesson = null;
   }
 }
+function handleModuleProgress() {
+  if (!currentModule) return;
+  const lessonsInModule = modulesMap[currentModule].lessons;
+  const allDone = lessonsInModule.every((num) => completedLessons >= num);
+  if (allDone) {
+    helpBar.innerHTML = `Module ${currentModule} complete! Time for the module test.`;
+    currentModule = null;
+  }
+}
+
 
 // the event listener captures the input on enter and passes it through the switch statement to handle the various commands
 cmdInput.addEventListener("keypress", (event) => {
@@ -250,6 +264,26 @@ cmdInput.addEventListener("keypress", (event) => {
           tc.rm(activeFileSystem, argv.args),
           input
         );
+        break;
+      case "module":
+        if (argv.args[0] === "--help" || argv.args[0] === "-h" || !argv.args[0]) {
+          inputArea.innerHTML += cmdHandler(mc.module(["--help"]), input);
+          helpBar.innerHTML = helpInfo;
+        } else if (argv.args[0] === "ls") {
+          inputArea.innerHTML += cmdHandler(mc.module(["ls"]), input);
+          helpBar.innerHTML = helpInfo;
+        } else {
+          const moduleNum = argv.args[0];
+          const moduleMsg = mc.module(argv.args);
+          helpBar.innerHTML = moduleMsg;
+          if (modulesMap[moduleNum]) {
+            inputArea.innerHTML += cmdHandler("Module Loaded", input);
+            currentModule = parseInt(moduleNum);
+          } else {
+            inputArea.innerHTML += cmdHandler(moduleMsg, input);
+            currentModule = null;
+          }
+        }
         break;
       case "lesson":
         if (argv.args[0] === "--help" || argv.args[0] === "-h" || !argv.args[0]) {
