@@ -13,7 +13,7 @@ let terminalCommands = {
     <span class="cmd">touch</span> - creates a new empty file
     <span class="cmd">mkdir</span> - creates a new directory
     <span class="cmd">rm</span> - removes a file or directory
-    <span class="cmd">`;
+    `;
   },
   listFiles: (fs) => {
     let output = "";
