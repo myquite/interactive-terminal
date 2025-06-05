@@ -34,6 +34,7 @@ const main = document.querySelector("main");
 const workingDir = document.querySelector(".workingDir");
 const helpBar = document.querySelector("#helpBar");
 const progressBar = document.querySelector("#progressBar");
+const helpInfo = '> Enter <em>help</em> to see list of commands';
 
 // Keep track of which lesson is currently active
 const lessonObjectives = Object.fromEntries(
@@ -54,6 +55,7 @@ function resetLessons() {
   completedLessons = 0;
   currentLesson = null;
   updateProgressBar();
+  helpBar.innerHTML = helpInfo;
 }
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
@@ -169,7 +171,10 @@ function processCommand(input) {
 
 // Check if the current command fulfills a lesson objective
 function handleLesson(command) {
-  if (!currentLesson) return;
+  if (!currentLesson) {
+    helpBar.innerHTML = helpInfo;
+    return;
+  }
   const expected = lessonObjectives[currentLesson];
   if (command === expected) {
     helpBar.innerHTML = `Lesson ${currentLesson} complete! Ready for the next lesson?`;
@@ -178,8 +183,6 @@ function handleLesson(command) {
       updateProgressBar();
     }
     currentLesson = null;
-  } else {
-    helpBar.innerHTML = `Lesson ${currentLesson}: expected '<em>${expected}</em>' but got '<em>${command}</em>'`;
   }
 }
 
@@ -248,14 +251,14 @@ cmdInput.addEventListener("keypress", (event) => {
       case "lesson":
         if (argv.args[0] === "--help" || argv.args[0] === "-h" || !argv.args[0]) {
           inputArea.innerHTML += cmdHandler(lc.lesson(["--help"]), input);
-          helpBar.innerHTML = "";
+          helpBar.innerHTML = helpInfo;
         } else if (argv.args[0] === "reset") {
           inputArea.innerHTML += cmdHandler(lc.lesson(["reset"]), input);
-          helpBar.innerHTML = "";
+          helpBar.innerHTML = helpInfo;
           resetLessons();
         } else if (argv.args[0] === "ls") {
           inputArea.innerHTML += cmdHandler(lc.lesson(["ls"]), input);
-          helpBar.innerHTML = "";
+          helpBar.innerHTML = helpInfo;
         } else {
           const lessonNum = argv.args[0];
           const lessonMsg = lc.lesson(argv.args);
@@ -298,6 +301,7 @@ cmdInput.addEventListener("keydown", handleKeydown);
 setPrompt();
 updateLastLogin();
 updateProgressBar();
+helpBar.innerHTML = helpInfo;
 
 // Running tests on the terminal commands
 
