@@ -32,12 +32,22 @@ const lastLogin = document.querySelector(".lastLogin");
 const terminal = document.querySelector("#terminal");
 const workingDir = document.querySelector(".workingDir");
 const helpBar = document.querySelector("#helpBar");
+const progressBar = document.querySelector("#progressBar");
 
 // Keep track of which lesson is currently active
 const lessonObjectives = {
   1: "pwd",
 };
 let currentLesson = null;
+
+// Progress tracking
+const totalLessons = Object.keys(lessonObjectives).length;
+let completedLessons = 0;
+
+function updateProgressBar() {
+  const percent = (completedLessons / totalLessons) * 100;
+  progressBar.style.width = `${percent}%`;
+}
 
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
@@ -156,6 +166,10 @@ function handleLesson(command) {
   const expected = lessonObjectives[currentLesson];
   if (command === expected) {
     helpBar.innerHTML = `Lesson ${currentLesson} complete! Ready for the next lesson?`;
+    if (currentLesson > completedLessons) {
+      completedLessons = currentLesson;
+      updateProgressBar();
+    }
     currentLesson = null;
   } else {
     helpBar.innerHTML = `Lesson ${currentLesson}: expected '<em>${expected}</em>' but got '<em>${command}</em>'`;
@@ -257,6 +271,7 @@ cmdInput.addEventListener("keydown", handleKeydown);
 
 setPrompt();
 updateLastLogin();
+updateProgressBar();
 
 // Running tests on the terminal commands
 
