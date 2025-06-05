@@ -16,7 +16,7 @@ let terminalCommands = {
     <span class="cmd">rm</span> - removes a file or directory
     <span class="cmd">lesson &lt;number&gt;</span> - start a guided lesson
     <span class="cmd">lesson --help</span> - how lessons work
-    `;
+    <span class="cmd">lesson ls</span> - list lessons`;
   },
   listFiles: (fs) => {
     let output = "";
