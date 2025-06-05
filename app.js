@@ -257,9 +257,16 @@ cmdInput.addEventListener("keypress", (event) => {
           inputArea.innerHTML += cmdHandler(lc.lesson(["ls"]), input);
           helpBar.innerHTML = "";
         } else {
-          inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
-          helpBar.innerHTML = lc.lesson(argv.args);
-          currentLesson = parseInt(argv.args[0]);
+          const lessonNum = argv.args[0];
+          const lessonMsg = lc.lesson(argv.args);
+          helpBar.innerHTML = lessonMsg;
+          if (lessons[lessonNum]) {
+            inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
+            currentLesson = parseInt(lessonNum);
+          } else {
+            inputArea.innerHTML += cmdHandler(lessonMsg, input);
+            currentLesson = null;
+          }
         }
         break;
       case "test":
