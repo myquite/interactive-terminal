@@ -232,3 +232,8 @@ test("echo command returns arguements", tc.echo, () => {
   let input = inputToCOA("echo hello").args;
   expect(input).toBeLike("hello");
 });
+
+test("touch command warns on existing file", tc.touch, () => {
+  let result = tc.touch(activeFileSystem, ["index.html"]);
+  expect(result).toBe("touch: index.html: File exists");
+});
