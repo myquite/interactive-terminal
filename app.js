@@ -30,6 +30,7 @@ const cmdInput = document.querySelector("#cmdInput");
 const inputArea = document.querySelector("#inputArea");
 const lastLogin = document.querySelector(".lastLogin");
 const terminal = document.querySelector("#terminal");
+const main = document.querySelector("main");
 const workingDir = document.querySelector(".workingDir");
 const helpBar = document.querySelector("#helpBar");
 const progressBar = document.querySelector("#progressBar");
@@ -68,7 +69,7 @@ function setPrompt() {
 
 // Scrolls the terminal view to the bottom
 function scrollToBottom() {
-  terminal.scrollTop = terminal.scrollHeight;
+  main.scrollTop = main.scrollHeight;
 }
 
 // builds and sets the last login info  when page is first loaded
