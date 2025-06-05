@@ -3,6 +3,7 @@
 let terminalCommands = {
   help: () => {
     return `
+    <strong>Commands</strong>
     <span class="cmd">help</span> - displays this help message
     <span class="cmd">clear</span> - clears the terminal
     <span class="cmd">ls</span> - lists files and folders in the current directory
@@ -12,7 +13,11 @@ let terminalCommands = {
     <span class="cmd">echo</span> - displays lines of text or string passed as arguments
     <span class="cmd">touch</span> - creates a new empty file
     <span class="cmd">mkdir</span> - creates a new directory
-    <span class="cmd">rm</span> - removes a file or directory`;
+    <span class="cmd">rm</span> - removes a file or directory
+
+    <br/><br/><strong>Lessons</strong>
+    <span class="cmd">lesson &lt;number&gt;</span> - start a guided lesson
+    <span class="cmd">lesson --help</span> - how lessons work`;
   },
   listFiles: (fs) => {
     let output = "";

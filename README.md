@@ -20,6 +20,8 @@ Current Commands:
 
 Use the `lesson` command to start a guided exercise. When you finish a lesson by entering the correct command, the help bar will confirm completion and prompt you for the next lesson.
 
+Run `lesson --help` for details on how the lesson system works and how to start a specific lesson.
+
 Live Project: [Interactive Terminal](https://myquite.github.io/interactive-terminal/)
 
 ## Priority Tasks
