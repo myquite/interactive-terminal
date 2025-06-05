@@ -22,7 +22,7 @@ const COMMANDS = [
   "rm",
 ];
 
-// instatiates the filesystem and sets the current directory and files.
+// instantiates the filesystem and sets the current directory and files.
 const lesson1 = mockFileSystem();
 const activeFileSystem = lesson1;
 
@@ -44,7 +44,7 @@ function setPrompt() {
   }
 }
 
-// this function the scroll bar at the bottom of the terminal
+// Scrolls the terminal view to the bottom
 function scrollToBottom() {
   terminal.scrollTop = terminal.scrollHeight;
 }
@@ -63,10 +63,13 @@ function updateLastLogin() {
 
 // split input into command, options, and arguments.
 function inputToCOA(input) {
-  let inputArray = input.match(/(".*?"|[^",\s]+)/g);
-  let command = inputArray[0];
+  if (!input.trim()) {
+    return { command: "", options: [], args: [] };
+  }
+  let inputArray = input.match(/(".*?"|[^",\s]+)/g) || [];
+  let command = inputArray[0] || "";
   let options = inputArray.slice(1, inputArray.length - 1);
-  let args = inputArray.slice(-1, inputArray.length);
+  let args = inputArray.slice(-1);
   return { command, options, args };
 }
 
@@ -145,6 +148,12 @@ function processCommand(input) {
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     let input = event.target.value.toString();
+    if (!input.trim()) {
+      inputArea.innerHTML += cmdHandler("", "");
+      event.target.value = "";
+      scrollToBottom();
+      return;
+    }
     let argv = inputToCOA(input);
 
     switch (argv.command.toLowerCase()) {
@@ -231,4 +240,9 @@ updateLastLogin();
 test("echo command returns arguements", tc.echo, () => {
   let input = inputToCOA("echo hello").args;
   expect(input).toBeLike("hello");
+});
+
+test("touch command warns on existing file", tc.touch, () => {
+  let result = tc.touch(activeFileSystem, ["index.html"]);
+  expect(result).toBe("touch: index.html: File exists");
 });
