@@ -33,6 +33,12 @@ const terminal = document.querySelector("#terminal");
 const workingDir = document.querySelector(".workingDir");
 const helpBar = document.querySelector("#helpBar");
 
+// Keep track of which lesson is currently active
+const lessonObjectives = {
+  1: "pwd",
+};
+let currentLesson = null;
+
 // Sets the prompt for the terminal and includes the current working directory if not root.
 function setPrompt() {
   let currentDir = activeFileSystem.currentWorkingDirectory.split("/").pop();
@@ -144,6 +150,18 @@ function processCommand(input) {
   }
 }
 
+// Check if the current command fulfills a lesson objective
+function handleLesson(command) {
+  if (!currentLesson) return;
+  const expected = lessonObjectives[currentLesson];
+  if (command === expected) {
+    helpBar.innerHTML = `Lesson ${currentLesson} complete! Ready for the next lesson?`;
+    currentLesson = null;
+  } else {
+    helpBar.innerHTML = `Lesson ${currentLesson}: expected '<em>${expected}</em>' but got '<em>${command}</em>'`;
+  }
+}
+
 // the event listener captures the input on enter and passes it through the switch statement to handle the various commands
 cmdInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
@@ -209,6 +227,7 @@ cmdInput.addEventListener("keypress", (event) => {
       case "lesson":
         inputArea.innerHTML += cmdHandler("Lesson Loaded", input);
         helpBar.innerHTML = lc.lesson(argv.args);
+        currentLesson = parseInt(argv.args[0]);
         break;
       case "test":
         inputArea.innerHTML += cmdHandler(
@@ -222,6 +241,10 @@ cmdInput.addEventListener("keypress", (event) => {
           input
         );
         break;
+    }
+
+    if (argv.command.toLowerCase() !== "lesson") {
+      handleLesson(argv.command.toLowerCase());
     }
 
     processCommand(input);
