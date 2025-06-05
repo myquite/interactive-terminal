@@ -11,6 +11,10 @@ let lessonCommands = {
       );
     }
 
+    if (firstArg === "reset") {
+      return "Lesson progress reset.";
+    }
+
     const lessonNumber = firstArg.toString();
     switch (lessonNumber) {
       case "1":
